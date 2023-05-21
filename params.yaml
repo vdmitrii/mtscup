@@ -1,0 +1,16 @@
+epochs: 900
+tuning:
+  - learning-rate: 0.945
+  - max_depth: 7
+paths:
+  - labels: 'materials/labels'
+  - truth: 'materials/ground'
+models:
+  us:
+    threshold: 10
+    filename: 'model-us.hdf5'
+data:
+  competition_data_final_pqt: 'https://storage.yandexcloud.net/ds-ods/files/materials/124f46f0/competition_data_final_pqt.zip'
+  submit: 'https://storage.yandexcloud.net/ds-ods/files/materials/adfd2b94/submit_2.pqt'
+  sample_submission: 'https://storage.yandexcloud.net/ds-ods/files/materials/3c7ffeb3/sample_submission.csv'
+  public_train: 'https://storage.yandexcloud.net/ds-ods/files/materials/f2fadc4d/public_train.pqt'
