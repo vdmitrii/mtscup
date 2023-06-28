@@ -4,31 +4,21 @@ import logging
 from pathlib import Path
 # from dotenv import find_dotenv, load_dotenv
 
+LOCAL_DATA_PATH = 'data/raw'
+SPLIT_SEED = 42
+DATA_FILE = 'competition_data_final_pqt'
+TARGET_FILE = 'public_train.pqt'
+SUBMISSION_FILE = 'submit_2.pqt'
 
 @click.command()
 @click.argument('input_filepath', type=click.Path(exists=True))
 @click.argument('output_filepath', type=click.Path())
 def main(input_filepath, output_filepath):
-    # !wget 'https://storage.yandexcloud.net/ds-ods/files/materials/124f46f0/competition_data_final_pqt.zip' -O raw/competition_data_final_pqt.zip
-    # !wget 'https://storage.yandexcloud.net/ds-ods/files/materials/adfd2b94/submit_2.pqt' -O raw/submit_2.pqt
-    # !wget 'https://storage.yandexcloud.net/ds-ods/files/materials/f2fadc4d/public_train.pqt' -O raw/public_train.pqt
-
-    # !unzip raw/competition_data_final_pqt.zip
-    # !rm -rf raw/competition_data_final_pqt.zip
-
-    df = pd.DataFrame(r.json()['elements'])
-    df.to_csv(output_path)
-
+    id_to_submit = pd.read_parquet(input_filepath)
+    df = pd.read_parquet(input_filepath, columns=['user_id', 'url_host', 'req_sum','req_max'])
+    id_to_submit.to_csv(output_filepath, index=False)
+    df.to_parquet(output_filepath, index=False)
+    
 
 if __name__ == '__main__':
-    log_fmt = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-    logging.basicConfig(level=logging.INFO, format=log_fmt)
-
-    # not used in this stub but often useful for finding various files
-    project_dir = Path(__file__).resolve().parents[2]
-
-    # find .env automagically by walking up directories until it's found, then
-    # load up the .env entries as environment variables
-    load_dotenv(find_dotenv())
-
     main()
